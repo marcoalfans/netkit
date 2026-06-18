@@ -55,6 +55,32 @@
     'Engine': 'Engine',
     'Operating system': 'Sistem operasi',
     'Device type': 'Jenis perangkat',
+
+    // ---------- Layer 1: Bandwidth ----------
+    'Work out how long a transfer takes from data size and link speed, and convert between bit/s and byte/s.': 'Hitung lama transfer dari ukuran data dan kecepatan link, serta konversi antara bit/s dan byte/s.',
+    'Transfer': 'Transfer',
+    'Data size': 'Ukuran data',
+    'Unit': 'Satuan',
+    'Link speed': 'Kecepatan link',
+    'Result': 'Hasil',
+    'Transfer time': 'Waktu transfer',
+    'Link speed (bit/s)': 'Kecepatan link (bit/s)',
+    'Link speed (byte/s)': 'Kecepatan link (byte/s)',
+    'Seconds': 'Detik',
+
+    // ---------- Layer 2: MAC ----------
+    'Normalise a MAC address into every format and reveal its OUI, vendor and unicast/local bits.': 'Normalkan alamat MAC ke semua format dan tampilkan OUI, vendor, serta bit unicast/lokalnya.',
+    'MAC Address': 'Alamat MAC',
+    'Any format (colon, hyphen, dot, bare)': 'Format apa saja (titik dua, strip, titik, polos)',
+    'Colon': 'Titik dua',
+    'Hyphen': 'Strip',
+    'Cisco (dotted)': 'Cisco (titik)',
+    'Bare': 'Polos',
+    'Uppercase': 'Huruf besar',
+    'OUI (prefix)': 'OUI (prefiks)',
+    'Vendor': 'Vendor',
+    'Cast': 'Cast',
+    'Administration': 'Administrasi',
   };
 
   const getLang = () => localStorage.getItem('lang') || 'en';

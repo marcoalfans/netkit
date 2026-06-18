@@ -20,6 +20,8 @@ const exFill = (idOrSel, val) => {
 const exClick = (id) => { const el = $('#' + id); if (el) el.click(); };
 
 const EXAMPLES = {
+  'bandwidth': () => { exFill('bw-size', '5'); exFill('bw-sunit', 'GB'); exFill('bw-speed', '100'); exFill('bw-spunit', 'Mbps'); },
+  'mac': () => { exFill('mac-in', '00:0c:29:3a:4b:5c'); },
   'cidr': () => { exFill('cidr-in', '192.168.1.0/24'); },
   'subnet': () => { exFill('sn-net', '10.0.0.0/16'); exFill('sn-new', '24'); },
   'ip-convert': () => { exFill('ipc-in', '3232235521'); },

@@ -17,8 +17,10 @@
     <button class="rk-hamburger" id="rkHamburger" aria-label="Menu">☰</button>
     <a href="#" class="rk-brand"><span class="accent">~/</span>netkit<span class="muted">.kac0</span></a>
     <nav class="rk-tabs" id="rkTabs">
-        <button class="rk-tab" data-cat="subnet">Subnet</button>
-        <button class="rk-tab" data-cat="convert">Convert</button>
+        <button class="rk-tab" data-cat="l1">Layer 1</button>
+        <button class="rk-tab" data-cat="l2">Layer 2</button>
+        <button class="rk-tab" data-cat="l3">Layer 3</button>
+        <button class="rk-tab" data-cat="toolbox">Toolbox</button>
     </nav>
     <div class="rk-header-right">
       <a href="https://marcoalfans.github.io/" class="rk-back">←<span class="rk-back-label"> portfolio</span></a>
@@ -36,14 +38,22 @@
         </button>
       </div>
       <nav class="nav">
-        <div class="nav-section" data-cat="subnet">
-          <div class="nav-title">IP &amp; Subnet</div>
+        <div class="nav-section" data-cat="l1">
+          <div class="nav-title">Layer 1 · Physical</div>
+          <button class="nav-item" data-tool="bandwidth">Bandwidth &amp; Transfer</button>
+        </div>
+        <div class="nav-section" data-cat="l2">
+          <div class="nav-title">Layer 2 · Data Link</div>
+          <button class="nav-item" data-tool="mac">MAC Address Tool</button>
+        </div>
+        <div class="nav-section" data-cat="l3">
+          <div class="nav-title">Layer 3 · Network</div>
           <button class="nav-item" data-tool="cidr">CIDR Calculator</button>
           <button class="nav-item" data-tool="subnet">Subnet Calculator</button>
-        </div>
-        <div class="nav-section" data-cat="convert">
-          <div class="nav-title">Convert &amp; Parse</div>
           <button class="nav-item" data-tool="ip-convert">IP Converter</button>
+        </div>
+        <div class="nav-section" data-cat="toolbox">
+          <div class="nav-title">Toolbox</div>
           <button class="nav-item" data-tool="ua-parser">User-Agent Parser</button>
         </div>
       </nav>
@@ -78,6 +88,8 @@
 
   <script src="js/i18n.js"></script>
   <script src="js/core.js"></script>
+  <script src="js/tools/layer1.js"></script>
+  <script src="js/tools/layer2.js"></script>
   <script src="js/tools/subnet.js"></script>
   <script src="js/tools/convert.js"></script>
   <script src="js/nav.js"></script>

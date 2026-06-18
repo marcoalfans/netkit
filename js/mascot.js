@@ -22,10 +22,10 @@
     theme: { red:"#2f6fe0", redDim:"#16345a", bubble:"#141a1b", text:"#d4e0e9", muted:"#6a767a" },
 
     thoughts: [
-      { h:"subnetting", items:["CIDR /24","VLSM split","broadcast","usable hosts"] },
-      { h:"convert",    items:["dec to hex","IPv4 to IPv6","binary","MAC vendor"] },
-      { h:"lookup",     items:["DNS records","reverse PTR","ASN owner","geo / ISP"] },
-      { h:"plan",       items:["supernet","wildcard mask","MTU / MSS","port map"] },
+      { h:"layer 1", items:["cabling","bandwidth","encoding","MTU"] },
+      { h:"layer 2", items:["MAC / OUI","VLAN","STP","switching"] },
+      { h:"layer 3", items:["subnetting","routing","CIDR","ACLs"] },
+      { h:"cisco lab", items:["show ip route","vlan brief","ping","traceroute"] },
     ],
     shouts: ["DON'T BUG ME! 😤", "GRRR! I'm busy!", "BACK OFF!", "stop poking me!!"],
   };
