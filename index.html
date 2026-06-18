@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetKit | Network Toolkit</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="NetKit — a client-side network toolkit: CIDR & subnet calculators, IP converter, user-agent parser and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="rk-header">
+    <button class="rk-hamburger" id="rkHamburger" aria-label="Menu">☰</button>
+    <a href="#" class="rk-brand"><span class="accent">~/</span>netkit<span class="muted">.kac0</span></a>
+    <nav class="rk-tabs" id="rkTabs">
+        <button class="rk-tab" data-cat="subnet">Subnet</button>
+        <button class="rk-tab" data-cat="convert">Convert</button>
+    </nav>
+    <div class="rk-header-right">
+      <a href="https://marcoalfans.github.io/" class="rk-back">←<span class="rk-back-label"> portfolio</span></a>
+      <button class="rk-lang-btn" id="rkLang" aria-label="Toggle language">EN</button>
+      <button class="rk-icon-btn" id="rkTheme" aria-label="Toggle theme"><i class="fas fa-sun" id="rkThemeIcon"></i></button>
+    </div>
+  </header>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="rk-sidebar-search">
+        <button class="rk-search-btn" id="rkSearchBtn" aria-label="Search tools">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="sb-label">Search tools</span>
+          <kbd>⌘K</kbd>
+        </button>
+      </div>
+      <nav class="nav">
+        <div class="nav-section" data-cat="subnet">
+          <div class="nav-title">IP &amp; Subnet</div>
+          <button class="nav-item" data-tool="cidr">CIDR Calculator</button>
+          <button class="nav-item" data-tool="subnet">Subnet Calculator</button>
+        </div>
+        <div class="nav-section" data-cat="convert">
+          <div class="nav-title">Convert &amp; Parse</div>
+          <button class="nav-item" data-tool="ip-convert">IP Converter</button>
+          <button class="nav-item" data-tool="ua-parser">User-Agent Parser</button>
+        </div>
+      </nav>
+      <div id="rk-mascot"></div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title">
+          <h2 id="currentToolTitle">NetKit</h2>
+          <p id="currentToolDesc">Network Toolkit</p>
+        </div>
+        <button id="rk-example-btn" class="btn btn-secondary" style="display:none"><i class="fas fa-wand-magic-sparkles"></i> Example</button>
+      </div>
+      <div class="content" id="content"></div>
+      <footer class="rk-footer">
+        <span class="muted">64 bytes from kac0: icmp_seq=1 ttl=64</span>
+        <span>© 2026 Marco Alfan · NetKit</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="rk-search-modal" id="rkSearchModal" role="dialog" aria-modal="true">
+    <div class="rk-search-box">
+      <div class="rk-search-input-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input class="rk-search-input" id="rkSearchInput" placeholder="Search tools…" autocomplete="off">
+        <kbd>esc</kbd>
+      </div>
+      <div class="rk-search-results" id="rkSearchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/tools/subnet.js"></script>
+  <script src="js/tools/convert.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/mascot.js" defer></script>
+</body>
+</html>
