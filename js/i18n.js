@@ -8,15 +8,48 @@
 (function () {
   const DICT = {
     // ---------- Tool descriptions ----------
-    'Calculate network, broadcast, mask, host range and usable hosts from a CIDR block.': 'Hitung alamat network, broadcast, mask, rentang host, dan jumlah host usable dari sebuah blok CIDR.',
-    'Split a network into equal subnets and list each range, broadcast and host count.': 'Bagi sebuah network menjadi subnet sama besar dan tampilkan rentang, broadcast, serta jumlah host tiap subnet.',
-    'Convert an IPv4 address between dotted, decimal, hex, octal, binary and IPv6 forms.': 'Konversi alamat IPv4 antara dotted, desimal, hex, oktal, biner, dan bentuk IPv6.',
-    'Parse a User-Agent string into browser, engine, operating system and device.': 'Urai string User-Agent menjadi browser, engine, sistem operasi, dan perangkat.',
+    'Break a CIDR block down into network, broadcast, mask, host range, reverse DNS and a bit-level view.': 'Uraikan blok CIDR menjadi network, broadcast, mask, rentang host, reverse DNS, dan tampilan level bit.',
+    'Divide a network by new prefix, subnet count or hosts-per-subnet, and list every resulting subnet.': 'Bagi network berdasarkan prefix baru, jumlah subnet, atau host per subnet, lalu daftar semua subnet hasilnya.',
+    'Convert IPv4 (dotted, decimal, hex, octal, binary) and IPv6 (expand, compress, mapped) with reverse DNS.': 'Konversi IPv4 (dotted, desimal, hex, oktal, biner) dan IPv6 (perluas, padatkan, mapped) lengkap dengan reverse DNS.',
+    'Parse a User-Agent string into browser, engine, OS, device, CPU architecture and bot status.': 'Urai string User-Agent menjadi browser, engine, OS, perangkat, arsitektur CPU, dan status bot.',
+    'Work out transfer time from data size and link speed, factor in protocol overhead, and convert bit/s to byte/s.': 'Hitung waktu transfer dari ukuran data dan kecepatan link, perhitungkan overhead protokol, dan konversi bit/s ke byte/s.',
+    'Normalise a MAC into every format and show its OUI/vendor, I/G & U/L bits, and EUI-64 IPv6 link-local address.': 'Normalkan MAC ke semua format dan tampilkan OUI/vendor, bit I/G & U/L, serta alamat IPv6 link-local EUI-64.',
 
     // ---------- Common ----------
     'Copy': 'Salin',
     'Details': 'Detail',
     'Network': 'Network',
+    'Type': 'Tipe',
+    'Reverse DNS': 'Reverse DNS',
+
+    // ---------- CIDR / Subnet extras ----------
+    'Usable host range': 'Rentang host usable',
+    'Supernet': 'Supernet',
+    'Contains': 'Berisi',
+    'Bit breakdown': 'Rincian bit',
+    'Network bits | host bits': 'Bit network | bit host',
+    'Split by': 'Bagi berdasarkan',
+    'Value': 'Nilai',
+
+    // ---------- IP Converter extras ----------
+    'Expanded': 'Diperluas',
+    'Compressed': 'Dipadatkan',
+    'Groups': 'Grup',
+    'Embedded IPv4': 'IPv4 tertanam',
+
+    // ---------- User-Agent extras ----------
+    'CPU architecture': 'Arsitektur CPU',
+    'Bot / automated': 'Bot / otomatis',
+    'Device model': 'Model perangkat',
+
+    // ---------- Bandwidth extras ----------
+    'Protocol overhead %': 'Overhead protokol %',
+    'Ideal transfer time': 'Waktu transfer ideal',
+    'Effective time (with overhead)': 'Waktu efektif (dengan overhead)',
+    'Effective throughput': 'Throughput efektif',
+
+    // ---------- MAC extras ----------
+    'First octet': 'Oktet pertama',
 
     // ---------- CIDR Calculator ----------
     'CIDR Block': 'Blok CIDR',
