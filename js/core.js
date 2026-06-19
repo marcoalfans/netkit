@@ -100,6 +100,11 @@ const wireTabs = (container, attr, onSelect) => {
 const wireCopyAll = (root) => $$('[data-copy]', root || document).forEach(b => b.addEventListener('click', () => copy(b.getAttribute('data-copy'))));
 const wireCopyRefs = (root) => $$('[data-cp]', root || document).forEach(b => b.addEventListener('click', () => { const t = $('#' + b.dataset.cp); if (t) copy(t.textContent); }));
 
+// horizontal address-space bar. segs = [{ frac, color, label, tip, free }]
+const NET_COLORS = ['#3b82f6', '#0ea5e9', '#06b6d4', '#14b8a6', '#22c55e', '#6366f1', '#8b5cf6', '#a855f7', '#ec4899', '#f59e0b'];
+const netBar = (segs) => `<div class="net-bar">${segs.map(s =>
+  `<div class="net-seg${s.free ? ' free' : ''}" style="flex:${s.frac} 1 0${s.color ? ';background:' + s.color : ''}" data-tip="${escapeHtml(s.tip || '')}">${escapeHtml(s.label || '')}</div>`).join('')}</div>`;
+
 // ============================================================
 // TOOLS REGISTRY
 // ============================================================

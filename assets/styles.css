@@ -1064,3 +1064,11 @@ textarea {
 .chmod-grid td { padding: 7px 16px; text-align: center; border-top: 1px solid var(--border); }
 .chmod-grid .chmod-role { text-align: left; font-size: 13px; font-weight: 600; color: var(--text); }
 .chmod-grid input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+
+/* ===== Address-space bar (subnet visualisation) ===== */
+.net-bar { display: flex; width: 100%; height: 32px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin: 4px 0 14px; }
+.net-seg { display: flex; align-items: center; justify-content: center; min-width: 0; overflow: hidden; white-space: nowrap; color: #fff; font-size: 10.5px; font-weight: 600; font-family: 'JetBrains Mono', monospace; cursor: default; border-right: 1px solid rgba(0,0,0,.28); transition: filter .12s; }
+.net-seg:last-child { border-right: none; }
+.net-seg:hover { filter: brightness(1.12); }
+.net-seg.free { background: var(--bg-elev2); color: var(--text-mute); }
+.net-legend { font-size: 11.5px; color: var(--text-mute); margin-bottom: 12px; }

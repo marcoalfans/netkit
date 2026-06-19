@@ -48,7 +48,7 @@ TOOLS['cidr'] = {
     return `
       <div class="tool">
         ${card('CIDR Block', field('CIDR or IP / prefix', `<input type="text" id="cidr-in" placeholder="192.168.1.0/24" autocomplete="off">`))}
-        ${card('Details', `<dl class="info-grid" id="cidr-out"></dl>`, { id: 'cidr-results', hidden: true })}
+        ${card('Details', `<dl class="info-grid" id="cidr-out"></dl><div id="cidr-bar" data-noi18n></div>`, { id: 'cidr-results', hidden: true })}
         ${card('Bit breakdown', resultHead('Network bits | host bits', ghostBtn('cidr-bin-copy')) + `<pre class="not-pre mono" id="cidr-bin"></pre>`, { id: 'cidr-bin-card', hidden: true })}
       </div>`;
   },
@@ -76,6 +76,12 @@ TOOLS['cidr'] = {
         'Reverse DNS': reverseDns(net),
       };
       $('#cidr-out').innerHTML = Object.entries(rows).map(([k, v]) => `<dt>${k}</dt><dd><code>${escapeHtml(String(v))}</code></dd>`).join('');
+      const segs = r.p <= 30
+        ? [{ frac: 1, color: NET_COLORS[0], label: 'net', tip: 'Network address: ' + intToIp(net) },
+           { frac: usable, color: '#22c55e', label: usable.toLocaleString('en-US') + ' usable', tip: 'Usable hosts: ' + intToIp(first) + ' - ' + intToIp(last) },
+           { frac: 1, color: '#f59e0b', label: 'bcast', tip: 'Broadcast: ' + intToIp(bc) }]
+        : [{ frac: 1, color: '#22c55e', label: total + ' address' + (total > 1 ? 'es' : ''), tip: intToIp(first) + (total > 1 ? ' - ' + intToIp(last) : '') }];
+      $('#cidr-bar').innerHTML = netBar(segs);
       $('#cidr-results').style.display = 'block';
       const bin = [
         ['Address  ', r.ip], ['Netmask  ', mask], ['Network  ', net], ['Broadcast', bc],
@@ -107,7 +113,7 @@ TOOLS['flsm'] = {
           </div>
           <div class="sn-info" id="sn-info"></div>
         `)}
-        ${card('', resultHead('Subnets', ghostBtn('sn-copy')) + `<pre class="not-pre mono" id="sn-out"></pre>`, { id: 'sn-results', hidden: true })}
+        ${card('', resultHead('Subnets', ghostBtn('sn-copy')) + `<div id="sn-bar" data-noi18n></div><pre class="not-pre mono" id="sn-out"></pre>`, { id: 'sn-results', hidden: true })}
       </div>`;
   },
   init() {
@@ -137,6 +143,12 @@ TOOLS['flsm'] = {
       }
       if (count > MAX) lines.push(`... ${(count - MAX).toLocaleString('en-US')} more subnets not shown`);
       $('#sn-out').textContent = lines.join('\n');
+      // visual: up to 64 equal slices
+      if (count <= 64) {
+        const segs = [];
+        for (let i = 0; i < count; i++) { const n = (baseNet + i * size) >>> 0; segs.push({ frac: 1, color: NET_COLORS[i % NET_COLORS.length], label: count <= 16 ? '/' + np : '', tip: 'Subnet ' + i + ': ' + intToIp(n) + '/' + np }); }
+        $('#sn-bar').innerHTML = netBar(segs);
+      } else { $('#sn-bar').innerHTML = `<div class="net-legend">${count.toLocaleString('en-US')} equal /${np} subnets (too many to draw)</div>`; }
       $('#sn-results').style.display = 'block';
     };
     ['sn-net', 'sn-val'].forEach(id => $('#' + id).addEventListener('input', update));
@@ -157,7 +169,7 @@ TOOLS['vlsm'] = {
           ${field('Requirements (one per line: name : hosts)', `<textarea id="vl-req" rows="6" placeholder="Sales : 50&#10;IT : 25&#10;Servers : 10&#10;WAN link : 2"></textarea>`)}
           <div class="sn-info" id="vl-info"></div>
         `)}
-        ${card('', resultHead('Allocation', ghostBtn('vl-copy')) + `<pre class="not-pre mono" id="vl-out"></pre>`, { id: 'vl-results', hidden: true })}
+        ${card('', resultHead('Allocation', ghostBtn('vl-copy')) + `<div id="vl-bar" data-noi18n></div><pre class="not-pre mono" id="vl-out"></pre>`, { id: 'vl-results', hidden: true })}
       </div>`;
   },
   init() {
@@ -177,14 +189,17 @@ TOOLS['vlsm'] = {
       const baseEnd = baseNet + Math.pow(2, 32 - base.p); // exclusive end
       const sorted = reqs.map((r, i) => ({ ...r, i })).sort((a, b) => b.hosts - a.hosts || a.i - b.i);
       let ptr = baseNet, ok = true, used = 0;
-      const out = [];
-      for (const r of sorted) {
+      const out = [], segs = [], totalBase = Math.pow(2, 32 - base.p);
+      sorted.forEach((r, k) => {
         const hostBits = Math.max(2, Math.ceil(Math.log2(r.hosts + 2)));
         const prefix = 32 - hostBits, size = Math.pow(2, hostBits), usable = size - 2;
-        if (ptr + size > baseEnd) { out.push({ ...r, overflow: true, prefix, size }); ok = false; continue; }
+        if (ptr + size > baseEnd) { out.push({ ...r, overflow: true, prefix, size }); ok = false; return; }
         out.push({ ...r, net: ptr, prefix, size, usable, bcast: ptr + size - 1, wasted: usable - r.hosts });
+        if (segs.length <= 64) segs.push({ frac: size / totalBase, color: NET_COLORS[k % NET_COLORS.length], label: size / totalBase > 0.07 ? r.name.slice(0, 10) : '', tip: r.name + ': ' + intToIp(ptr) + '/' + prefix + ' (' + usable + ' usable)' });
         ptr += size; used += size;
-      }
+      });
+      if (ptr < baseEnd) segs.push({ frac: (baseEnd - ptr) / totalBase, free: true, label: 'free', tip: (baseEnd - ptr).toLocaleString('en-US') + ' addresses free' });
+      $('#vl-bar').innerHTML = netBar(segs);
       const rows = ['Subnet'.padEnd(14) + 'Need'.padEnd(6) + 'Network'.padEnd(20) + 'Mask'.padEnd(17) + 'Range'.padEnd(34) + 'Bcast'.padEnd(16) + 'Wasted'];
       out.sort((a, b) => a.i - b.i).forEach(r => {
         if (r.overflow) { rows.push(r.name.slice(0, 13).padEnd(14) + String(r.hosts).padEnd(6) + 'DOES NOT FIT (needs /' + r.prefix + ')'); return; }
