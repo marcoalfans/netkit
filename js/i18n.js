@@ -20,6 +20,11 @@
     'Work out transfer time from data size and link speed, factor in protocol overhead, and convert bit/s to byte/s.': 'Hitung waktu transfer dari ukuran data dan kecepatan link, perhitungkan overhead protokol, dan konversi bit/s ke byte/s.',
     'Normalise a MAC into every format and show its OUI/vendor, I/G & U/L bits, and EUI-64 IPv6 link-local address.': 'Normalkan MAC ke semua format dan tampilkan OUI/vendor, bit I/G & U/L, serta alamat IPv6 link-local EUI-64.',
 
+    // ---------- Cisco cheatsheet ----------
+    'Searchable Cisco IOS / Packet Tracer command reference grouped by task and layer, with the mode for each.': 'Referensi command Cisco IOS / Packet Tracer yang bisa dicari, dikelompokkan per tugas & layer, lengkap dengan mode-nya.',
+    'Cisco IOS Cheatsheet': 'Cheatsheet Cisco IOS',
+    'Filter by command, description or section...': 'Cari berdasarkan command, deskripsi, atau bagian...',
+
     // ---------- OSI Model ----------
     'Interactive 7-layer OSI model: click a layer for its PDU, protocols, devices and attacks, plus encapsulation.': 'Model OSI 7 layer interaktif: klik sebuah layer untuk lihat PDU, protokol, device, dan serangannya, plus enkapsulasi.',
     'OSI Layers': 'Layer OSI',

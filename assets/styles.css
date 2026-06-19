@@ -1096,3 +1096,15 @@ textarea {
 .enc-box.enc-data, .enc-box.enc-bits { flex: 1; text-align: center; background: var(--bg-elev2); color: var(--text-dim); min-width: 0; }
 .enc-eth { background: #22c55e; } .enc-ip { background: #14b8a6; } .enc-tcp { background: #06b6d4; } .enc-fcs { background: #6b7280; }
 @media (max-width: 600px) { .enc-row { flex-direction: column; align-items: stretch; gap: 3px; } .enc-label { min-width: 0; } }
+
+/* ===== Cisco cheatsheet ===== */
+.cli-search { width: 100%; margin: 0 0 4px; }
+.cli-group { margin: 18px 0 6px; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--accent); }
+.cli-row { display: grid; grid-template-columns: minmax(170px, 1fr) 1.5fr auto; gap: 14px; align-items: baseline; padding: 7px 10px; border-radius: 6px; }
+.cli-row:hover { background: var(--bg-elev2); }
+.cli-cmd { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--accent-hover); cursor: pointer; word-break: break-word; }
+.cli-cmd:hover { text-decoration: underline; }
+.cli-desc { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; }
+.cli-mode { font-size: 10.5px; font-family: 'JetBrains Mono', monospace; color: var(--text-mute); white-space: nowrap; }
+.cli-empty { padding: 14px 10px; color: var(--text-mute); font-size: 13px; }
+@media (max-width: 640px) { .cli-row { grid-template-columns: 1fr auto; } .cli-desc { grid-column: 1 / -1; } }

@@ -88,3 +88,137 @@ TOOLS['osi'] = {
     select(7);
   }
 };
+
+// ===== CISCO IOS COMMAND CHEATSHEET =====
+const CISCO = [
+  { s: 'Modes & basics', items: [
+    ['enable', 'User EXEC to privileged EXEC mode', '>'],
+    ['disable', 'Drop back to user EXEC', '#'],
+    ['configure terminal', 'Enter global configuration mode', '#'],
+    ['exit', 'Leave the current mode (one level up)', 'any'],
+    ['end', 'Jump straight back to privileged EXEC', '(config)#'],
+    ['hostname R1', 'Set the device name', '(config)#'],
+    ['do show ip interface brief', 'Run an EXEC command from config mode', '(config)#'],
+    ['no <command>', 'Negate / remove any command', 'any'],
+    ['?', 'Context help (list available commands)', 'any'],
+    ['reload', 'Reboot the device', '#'],
+  ]},
+  { s: 'Save & files', items: [
+    ['copy running-config startup-config', 'Save the running config to NVRAM', '#'],
+    ['write memory', 'Older shortcut to save the config', '#'],
+    ['show running-config', 'Display the active configuration', '#'],
+    ['show startup-config', 'Display the saved configuration', '#'],
+    ['erase startup-config', 'Wipe the saved config (factory-ish reset)', '#'],
+    ['copy running-config tftp', 'Back the config up to a TFTP server', '#'],
+  ]},
+  { s: 'Passwords & remote access', items: [
+    ['enable secret cisco123', 'Set an encrypted privileged-mode password', '(config)#'],
+    ['service password-encryption', 'Encrypt all plaintext passwords in the config', '(config)#'],
+    ['line console 0', 'Configure the console line', '(config)#'],
+    ['password cisco / login', 'Set + require a password on a line', '(config-line)#'],
+    ['line vty 0 4', 'Configure the 5 Telnet/SSH virtual lines', '(config)#'],
+    ['transport input ssh', 'Allow only SSH on the VTY lines', '(config-line)#'],
+    ['username admin secret pass', 'Create a local user for SSH login', '(config)#'],
+    ['ip domain-name lab.local', 'Set a domain (needed for SSH keys)', '(config)#'],
+    ['crypto key generate rsa', 'Generate RSA keys to enable SSH', '(config)#'],
+    ['banner motd #Authorized only#', 'Set the message-of-the-day banner', '(config)#'],
+  ]},
+  { s: 'Layer 1 - Interfaces', items: [
+    ['interface gigabitEthernet 0/0', 'Enter a physical interface', '(config)#'],
+    ['interface range fa0/1 - 12', 'Configure several interfaces at once', '(config)#'],
+    ['description LINK-TO-SW1', 'Label the interface', '(config-if)#'],
+    ['no shutdown', 'Enable (bring up) the interface', '(config-if)#'],
+    ['shutdown', 'Administratively disable the interface', '(config-if)#'],
+    ['speed 1000 / duplex full', 'Force speed and duplex', '(config-if)#'],
+    ['show ip interface brief', 'Quick status of every interface', '#'],
+    ['show interfaces status', 'Port status, VLAN, speed, duplex (switch)', '#'],
+  ]},
+  { s: 'Layer 2 - VLANs & switching', items: [
+    ['vlan 10', 'Create a VLAN and enter VLAN config', '(config)#'],
+    ['name SALES', 'Name the VLAN', '(config-vlan)#'],
+    ['switchport mode access', 'Make the port an access port', '(config-if)#'],
+    ['switchport access vlan 10', 'Assign the access port to a VLAN', '(config-if)#'],
+    ['switchport mode trunk', 'Make the port a trunk', '(config-if)#'],
+    ['switchport trunk allowed vlan 10,20', 'Restrict which VLANs cross the trunk', '(config-if)#'],
+    ['switchport trunk native vlan 99', 'Set the untagged (native) VLAN', '(config-if)#'],
+    ['show vlan brief', 'List VLANs and their ports', '#'],
+    ['show interfaces trunk', 'Show trunk ports and allowed VLANs', '#'],
+    ['show mac address-table', 'Show learned MAC-to-port mappings', '#'],
+  ]},
+  { s: 'Layer 2 - STP & port security', items: [
+    ['spanning-tree vlan 1 root primary', 'Make this switch the root bridge', '(config)#'],
+    ['spanning-tree portfast', 'Skip STP listening/learning on an edge port', '(config-if)#'],
+    ['spanning-tree bpduguard enable', 'Shut the port if a BPDU is seen', '(config-if)#'],
+    ['switchport port-security', 'Enable port security on the port', '(config-if)#'],
+    ['switchport port-security maximum 2', 'Limit how many MACs the port learns', '(config-if)#'],
+    ['switchport port-security mac-address sticky', 'Learn and save the MAC dynamically', '(config-if)#'],
+    ['switchport port-security violation shutdown', 'Action on a violation (shutdown/restrict/protect)', '(config-if)#'],
+    ['show port-security', 'Show port-security status and counters', '#'],
+    ['show spanning-tree', 'Show STP roles, states and root bridge', '#'],
+  ]},
+  { s: 'Layer 3 - IP & routing', items: [
+    ['ip address 192.168.1.1 255.255.255.0', 'Set an interface IPv4 address', '(config-if)#'],
+    ['interface vlan 10 / ip address ...', 'Create an SVI for inter-VLAN routing', '(config)#'],
+    ['ip default-gateway 192.168.1.1', 'Default gateway for a L2 switch', '(config)#'],
+    ['ip routing', 'Enable routing on a L3 switch', '(config)#'],
+    ['ip route 10.0.0.0 255.0.0.0 192.168.1.2', 'Add a static route', '(config)#'],
+    ['ip route 0.0.0.0 0.0.0.0 192.168.1.2', 'Add a default route', '(config)#'],
+    ['router ospf 1', 'Start an OSPF process', '(config)#'],
+    ['network 192.168.1.0 0.0.0.255 area 0', 'Advertise a network into OSPF', '(config-router)#'],
+    ['router eigrp 100', 'Start an EIGRP autonomous system', '(config)#'],
+    ['router rip / version 2', 'Start RIP and use v2', '(config)#'],
+    ['show ip route', 'Show the routing table', '#'],
+    ['show ip ospf neighbor', 'Show OSPF adjacencies', '#'],
+  ]},
+  { s: 'Services - DHCP, NAT, ACL', items: [
+    ['ip dhcp excluded-address 192.168.1.1 192.168.1.10', 'Reserve addresses from a pool', '(config)#'],
+    ['ip dhcp pool LAN', 'Create a DHCP pool', '(config)#'],
+    ['network 192.168.1.0 255.255.255.0', 'Pool subnet', '(dhcp-config)#'],
+    ['default-router 192.168.1.1', 'Gateway handed out by DHCP', '(dhcp-config)#'],
+    ['dns-server 8.8.8.8', 'DNS server handed out by DHCP', '(dhcp-config)#'],
+    ['access-list 10 permit 192.168.1.0 0.0.0.255', 'Standard ACL entry', '(config)#'],
+    ['ip access-group 10 in', 'Apply an ACL to an interface', '(config-if)#'],
+    ['ip nat inside / ip nat outside', 'Mark NAT inside/outside interfaces', '(config-if)#'],
+    ['ip nat inside source list 1 interface g0/0 overload', 'Configure PAT (NAT overload)', '(config)#'],
+    ['show ip nat translations', 'Show active NAT translations', '#'],
+  ]},
+  { s: 'Verify & troubleshoot', items: [
+    ['show version', 'IOS version, uptime, hardware', '#'],
+    ['ping 8.8.8.8', 'Test reachability', '#'],
+    ['traceroute 8.8.8.8', 'Trace the path hop by hop', '#'],
+    ['show cdp neighbors', 'Discover directly connected Cisco devices', '#'],
+    ['show ip protocols', 'Show running routing protocols', '#'],
+    ['show interfaces', 'Detailed interface counters and errors', '#'],
+    ['terminal monitor', 'See log/debug output over an SSH/Telnet session', '#'],
+    ['debug ip packet', 'Live packet debug (use with care)', '#'],
+  ]},
+];
+
+TOOLS['cisco'] = {
+  title: 'Cisco IOS Cheatsheet',
+  desc: 'Searchable Cisco IOS / Packet Tracer command reference grouped by task and layer, with the mode for each.',
+  render() {
+    const body = CISCO.map(g => `<div class="cli-group" data-grp>${g.s}</div>` + g.items.map(([c, d, m]) =>
+      `<div class="cli-row" data-f="${escapeHtml((c + ' ' + d + ' ' + g.s).toLowerCase())}"><code class="cli-cmd" data-copy="${escapeHtml(c)}" title="Click to copy">${escapeHtml(c)}</code><span class="cli-desc">${escapeHtml(d)}</span><span class="cli-mode">${escapeHtml(m)}</span></div>`
+    ).join('')).join('');
+    return `
+      <div class="tool">
+        ${card('Cisco IOS Cheatsheet', `
+          <input type="text" class="input cli-search" id="cli-search" placeholder="Filter by command, description or section..." autocomplete="off">
+          <div class="net-legend">Click a command to copy it. The right column is the mode it runs in (the prompt).</div>
+          <div id="cli-body">${body}</div>
+        `)}
+      </div>`;
+  },
+  init() {
+    const body = $('#cli-body'), search = $('#cli-search');
+    wireCopyAll(body);
+    search.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      let any = false;
+      $$('.cli-row', body).forEach(r => { const show = !q || r.dataset.f.includes(q); r.style.display = show ? '' : 'none'; if (show) any = true; });
+      $$('.cli-group', body).forEach(g => { let n = g.nextElementSibling, vis = false; while (n && !n.classList.contains('cli-group')) { if (n.classList.contains('cli-row') && n.style.display !== 'none') { vis = true; break; } n = n.nextElementSibling; } g.style.display = vis ? '' : 'none'; });
+      let em = $('.cli-empty', body); if (!any) { if (!em) { em = el('div', { class: 'cli-empty' }, 'No matching commands.'); body.appendChild(em); } em.style.display = ''; } else if (em) em.style.display = 'none';
+    });
+  }
+};
