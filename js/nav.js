@@ -23,7 +23,8 @@ const EXAMPLES = {
   'bandwidth': () => { exFill('bw-size', '5'); exFill('bw-sunit', 'GB'); exFill('bw-speed', '100'); exFill('bw-spunit', 'Mbps'); },
   'mac': () => { exFill('mac-in', '00:0c:29:3a:4b:5c'); },
   'cidr': () => { exFill('cidr-in', '192.168.1.0/24'); },
-  'subnet': () => { exFill('sn-net', '10.0.0.0/16'); exFill('sn-new', '24'); },
+  'flsm': () => { exFill('sn-net', '172.16.0.0/16'); exFill('sn-mode', 'subnets'); exFill('sn-val', '8'); },
+  'vlsm': () => { exFill('vl-net', '192.168.1.0/24'); exFill('vl-req', 'Sales : 50\nIT : 25\nServers : 10\nWAN link : 2'); },
   'ip-convert': () => { exFill('ipc-in', '3232235521'); },
   'ua-parser': () => { exClick('ua-mine'); },
 };

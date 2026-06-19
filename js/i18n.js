@@ -9,7 +9,12 @@
   const DICT = {
     // ---------- Tool descriptions ----------
     'Break a CIDR block down into network, broadcast, mask, host range, reverse DNS and a bit-level view.': 'Uraikan blok CIDR menjadi network, broadcast, mask, rentang host, reverse DNS, dan tampilan level bit.',
-    'Divide a network by new prefix, subnet count or hosts-per-subnet, and list every resulting subnet.': 'Bagi network berdasarkan prefix baru, jumlah subnet, atau host per subnet, lalu daftar semua subnet hasilnya.',
+    'Fixed-Length Subnet Mask: divide a network into equal-size subnets by prefix, count or hosts-per-subnet.': 'Fixed-Length Subnet Mask: bagi network menjadi subnet sama besar berdasarkan prefix, jumlah, atau host per subnet.',
+    'Variable-Length Subnet Mask: give each requirement the smallest subnet that fits, largest first, with no overlap.': 'Variable-Length Subnet Mask: beri tiap kebutuhan subnet terkecil yang muat, terbesar dulu, tanpa tumpang tindih.',
+    'Plan': 'Rencana',
+    'Base network (CIDR)': 'Network dasar (CIDR)',
+    'Requirements (one per line: name : hosts)': 'Kebutuhan (satu per baris: nama : host)',
+    'Allocation': 'Alokasi',
     'Convert IPv4 (dotted, decimal, hex, octal, binary) and IPv6 (expand, compress, mapped) with reverse DNS.': 'Konversi IPv4 (dotted, desimal, hex, oktal, biner) dan IPv6 (perluas, padatkan, mapped) lengkap dengan reverse DNS.',
     'Parse a User-Agent string into browser, engine, OS, device, CPU architecture and bot status.': 'Urai string User-Agent menjadi browser, engine, OS, perangkat, arsitektur CPU, dan status bot.',
     'Work out transfer time from data size and link speed, factor in protocol overhead, and convert bit/s to byte/s.': 'Hitung waktu transfer dari ukuran data dan kecepatan link, perhitungkan overhead protokol, dan konversi bit/s ke byte/s.',

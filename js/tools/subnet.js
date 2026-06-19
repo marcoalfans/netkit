@@ -89,9 +89,9 @@ TOOLS['cidr'] = {
   }
 };
 
-TOOLS['subnet'] = {
-  title: 'Subnet Calculator',
-  desc: 'Divide a network by new prefix, subnet count or hosts-per-subnet, and list every resulting subnet.',
+TOOLS['flsm'] = {
+  title: 'FLSM Subnet Calculator',
+  desc: 'Fixed-Length Subnet Mask: divide a network into equal-size subnets by prefix, count or hosts-per-subnet.',
   render() {
     return `
       <div class="tool">
@@ -127,7 +127,7 @@ TOOLS['subnet'] = {
       const count = Math.pow(2, np - base.p), size = Math.pow(2, 32 - np);
       const usable = np >= 31 ? (np === 32 ? 1 : 2) : size - 2;
       const baseNet = (base.ip & prefixToMask(base.p)) >>> 0;
-      info.textContent = `/${base.p} -> /${np}: ${count.toLocaleString('en-US')} subnets, ${usable.toLocaleString('en-US')} usable hosts each, mask ${intToIp(prefixToMask(np))}`;
+      info.textContent = `/${base.p} -> /${np} (borrowed ${np - base.p} bit${np - base.p === 1 ? '' : 's'}): ${count.toLocaleString('en-US')} subnets, ${usable.toLocaleString('en-US')} usable hosts each, mask ${intToIp(prefixToMask(np))}`;
       const shown = Math.min(count, MAX);
       const lines = ['#'.padEnd(5) + 'Subnet'.padEnd(20) + 'Usable range'.padEnd(34) + 'Broadcast'];
       for (let i = 0; i < shown; i++) {
@@ -142,6 +142,67 @@ TOOLS['subnet'] = {
     ['sn-net', 'sn-val'].forEach(id => $('#' + id).addEventListener('input', update));
     $('#sn-mode').addEventListener('change', update);
     wireCopy('sn-copy', () => $('#sn-out').textContent);
+    update();
+  }
+};
+
+TOOLS['vlsm'] = {
+  title: 'VLSM Planner',
+  desc: 'Variable-Length Subnet Mask: give each requirement the smallest subnet that fits, largest first, with no overlap.',
+  render() {
+    return `
+      <div class="tool">
+        ${card('Plan', `
+          ${field('Base network (CIDR)', `<input type="text" id="vl-net" placeholder="192.168.1.0/24" autocomplete="off">`)}
+          ${field('Requirements (one per line: name : hosts)', `<textarea id="vl-req" rows="6" placeholder="Sales : 50&#10;IT : 25&#10;Servers : 10&#10;WAN link : 2"></textarea>`)}
+          <div class="sn-info" id="vl-info"></div>
+        `)}
+        ${card('', resultHead('Allocation', ghostBtn('vl-copy')) + `<pre class="not-pre mono" id="vl-out"></pre>`, { id: 'vl-results', hidden: true })}
+      </div>`;
+  },
+  init() {
+    const update = () => {
+      const base = parseCidr($('#vl-net').value);
+      const reqs = $('#vl-req').value.split('\n').map(l => {
+        const t = l.trim(); if (!t) return null;
+        const m = t.match(/^(.*?)[:,\s]\s*(\d+)\s*$/);
+        if (m && m[2]) return { name: m[1].trim() || 'subnet', hosts: parseInt(m[2], 10) };
+        if (/^\d+$/.test(t)) return { name: 'subnet', hosts: parseInt(t, 10) };
+        return null;
+      }).filter(r => r && r.hosts > 0);
+      const info = $('#vl-info');
+      if (!base) { info.textContent = $('#vl-net').value.trim() ? 'Enter a valid base network like 192.168.1.0/24' : ''; $('#vl-results').style.display = 'none'; return; }
+      if (!reqs.length) { info.textContent = ''; $('#vl-results').style.display = 'none'; return; }
+      const baseNet = (base.ip & prefixToMask(base.p)) >>> 0;
+      const baseEnd = baseNet + Math.pow(2, 32 - base.p); // exclusive end
+      const sorted = reqs.map((r, i) => ({ ...r, i })).sort((a, b) => b.hosts - a.hosts || a.i - b.i);
+      let ptr = baseNet, ok = true, used = 0;
+      const out = [];
+      for (const r of sorted) {
+        const hostBits = Math.max(2, Math.ceil(Math.log2(r.hosts + 2)));
+        const prefix = 32 - hostBits, size = Math.pow(2, hostBits), usable = size - 2;
+        if (ptr + size > baseEnd) { out.push({ ...r, overflow: true, prefix, size }); ok = false; continue; }
+        out.push({ ...r, net: ptr, prefix, size, usable, bcast: ptr + size - 1, wasted: usable - r.hosts });
+        ptr += size; used += size;
+      }
+      const rows = ['Subnet'.padEnd(14) + 'Need'.padEnd(6) + 'Network'.padEnd(20) + 'Mask'.padEnd(17) + 'Range'.padEnd(34) + 'Bcast'.padEnd(16) + 'Wasted'];
+      out.sort((a, b) => a.i - b.i).forEach(r => {
+        if (r.overflow) { rows.push(r.name.slice(0, 13).padEnd(14) + String(r.hosts).padEnd(6) + 'DOES NOT FIT (needs /' + r.prefix + ')'); return; }
+        rows.push(
+          r.name.slice(0, 13).padEnd(14) + String(r.hosts).padEnd(6) +
+          (intToIp(r.net) + '/' + r.prefix).padEnd(20) + intToIp(prefixToMask(r.prefix)).padEnd(17) +
+          (intToIp(r.net + 1) + ' - ' + intToIp(r.bcast - 1)).padEnd(34) + intToIp(r.bcast).padEnd(16) + r.wasted);
+      });
+      const total = Math.pow(2, 32 - base.p);
+      info.textContent = ok
+        ? `${reqs.length} subnets allocated in ${intToIp(baseNet)}/${base.p}: ${used} of ${total} addresses used, ${total - used} free (${Math.round(used / total * 100)}% utilised)`
+        : `Does not fit in ${intToIp(baseNet)}/${base.p} — needs a larger block or fewer hosts.`;
+      $('#vl-out').textContent = rows.join('\n');
+      $('#vl-results').style.display = 'block';
+    };
+    $('#vl-net').addEventListener('input', update);
+    $('#vl-req').addEventListener('input', update);
+    wireCopy('vl-copy', () => $('#vl-out').textContent);
     update();
   }
 };
