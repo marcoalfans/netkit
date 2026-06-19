@@ -1072,3 +1072,27 @@ textarea {
 .net-seg:hover { filter: brightness(1.12); }
 .net-seg.free { background: var(--bg-elev2); color: var(--text-mute); }
 .net-legend { font-size: 11.5px; color: var(--text-mute); margin-bottom: 12px; }
+
+/* ===== OSI model tool ===== */
+.osi-stack { display: flex; flex-direction: column; gap: 5px; }
+.osi-layer { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border: 1px solid var(--border); border-left: 4px solid var(--lc); border-radius: 8px; background: var(--bg-elev); cursor: pointer; text-align: left; transition: .12s; font-family: inherit; }
+.osi-layer:hover { background: var(--bg-elev2); border-color: var(--lc); }
+.osi-layer.active { background: var(--bg-elev2); box-shadow: inset 0 0 0 1px var(--lc); border-color: var(--lc); }
+.osi-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; color: var(--lc); min-width: 26px; }
+.osi-name { font-weight: 600; font-size: 14px; flex: 1; color: var(--text); }
+.osi-pdu { font-size: 11px; color: var(--text-mute); font-family: 'JetBrains Mono', monospace; }
+.osi-mnemonic { margin-top: 14px; font-size: 12px; color: var(--text-dim); line-height: 1.7; }
+.osi-dh { font-size: 17px; margin: 0 0 6px; }
+.osi-func { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; margin: 0 0 14px; }
+.osi-sec-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-dim); margin: 14px 0 7px; }
+.osi-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.osi-chip { font-size: 11.5px; padding: 4px 10px; border-radius: 20px; background: var(--bg-elev2); border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; color: var(--text); }
+.osi-chip.sec { color: #f97316; border-color: rgba(249,115,22,.4); background: rgba(249,115,22,.08); }
+.osi-encap { display: flex; flex-direction: column; gap: 6px; }
+.enc-row { display: flex; align-items: center; gap: 10px; }
+.enc-label { font-size: 11px; color: var(--text-mute); font-family: 'JetBrains Mono', monospace; min-width: 96px; flex-shrink: 0; }
+.enc-boxes { display: flex; flex: 1; gap: 3px; min-width: 0; }
+.enc-box { padding: 7px 9px; border-radius: 5px; font-size: 11px; font-family: 'JetBrains Mono', monospace; white-space: nowrap; color: #fff; overflow: hidden; text-overflow: ellipsis; }
+.enc-box.enc-data, .enc-box.enc-bits { flex: 1; text-align: center; background: var(--bg-elev2); color: var(--text-dim); min-width: 0; }
+.enc-eth { background: #22c55e; } .enc-ip { background: #14b8a6; } .enc-tcp { background: #06b6d4; } .enc-fcs { background: #6b7280; }
+@media (max-width: 600px) { .enc-row { flex-direction: column; align-items: stretch; gap: 3px; } .enc-label { min-width: 0; } }
